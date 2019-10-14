@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# 1Password Import Batch Processor
+# 1Password Import Batch Processor 1.0
 # Batch tool converting large, complex 1Password libraries for use with pass
 # Author: Narcis M PAP, London, Oct 2019
 
@@ -21,11 +21,11 @@ async def process_import(pos, group, f_type, pif_file):
 	if args.dns:
 		command += " --dns"
 
-	process = await asyncio.create_subprocess_shell(
-		command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
-	)
-
 	async with sem:
+		process = await asyncio.create_subprocess_shell(
+			command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+		)
+
 		stdout, stderr = await process.communicate()
 		if process.returncode == 0:
 			print("[%s] Done:" % ('%03d' % pos), "(pid = " + str(process.pid) + ")", flush=True)
